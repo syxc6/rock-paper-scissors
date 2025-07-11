@@ -1,8 +1,20 @@
 #%%
 print("It could be carried by an African swallow!")
 
-import numpy as np
 
+import numpy as np
+import tkinter as tk
+
+
+#%%
+glass = tk.Tk()
+#glass.mainloop()
+glass.title("An African swallow mayBE, but not a EuroPEAN swallow, that's my point")
+hello = tk.Label(text="....but then of course, African swallows are nonmigratory")
+hello.pack()
+glass.mainloop()
+
+#%%
 diff = np.array([1, 2, 3])
 easy = np.array([1, 2, 3])
 normal = np.array([1, 2, 3])
