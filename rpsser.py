@@ -11,20 +11,27 @@ import tkinter.ttk as ttk
 glass = tk.Tk()
 #glass.mainloop()
 glass.title("An African swallow mayBE, but not a EuroPEAN swallow, that's my point")
+
+raining = tk.Frame(relief=tk.RIDGE, borderwidth=10)
+raining.pack()
+
 hello = tk.Label(
     text="....but then of course, African swallows are nonmigratory",
     foreground="#f0f94a",
     background="#59C672",
     width=70,
-    height=10)
+    height=10,
+    master=raining)
 hello.pack()
 
-write = tk.Entry(width=50)
+write = tk.Entry(bg="red", fg="yellow", width=50)
 write.pack()
 
 def yoink():
     quote = write.get()
     print(quote)
+    #there are text boxes and other alterations of text one can use
+    #.....anyway!
 
 press = tk.Button(
     text="you wouldn't dare...",
@@ -44,6 +51,8 @@ write.bind("<Return>", lambda event: yoink())
 #using enter key, does NOT need pack after it, but the button
 #needs the yoink defined before it to work. then the button
 #OR enter will output
+
+
 
 glass.mainloop()
 
