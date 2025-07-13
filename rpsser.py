@@ -5,6 +5,7 @@ print("It could be carried by an African swallow!")
 import numpy as np
 import tkinter as tk
 import tkinter.ttk as ttk
+from functools import partial
 
 
 #%%
@@ -68,6 +69,9 @@ framer2 = tk.Frame()
 framer3 = tk.Frame()
 framer4 = tk.Frame()
 framer5 = tk.Frame()
+framer6 = tk.Frame()
+framer7 = tk.Frame()
+framer8 = tk.Frame()
 
 
 #Next, to make sense to me, define widgets in order of top to bottom
@@ -76,7 +80,7 @@ framer5 = tk.Frame()
 #easier than just redoing the text? FUCK IT BUTTONSSSS
 title = tk.Label(
     text="Rock, Paper, Scissors!",
-    fg="#3EC102",
+    fg="#C10298",
     font=("Comic Sans MS", 50),
     master=framer1
 )
@@ -90,11 +94,61 @@ diff = tk.Label(
 )
 diff.pack()
 
+#define how to read which difficulty is present
+def pressdiff(userdiff):
+    print(userdiff)
+    nothing = 0
+
+
 
 #insert buttons for difficulty
+easy = tk.Button(
+    text="Easy",
+    font=("", 20),
+    width=8,
+    height=4,
+    fg="#05B339",
+    command=partial(pressdiff),
+    master=framer3
+)
+easy.pack(side="left")
+
+normal = tk.Button(
+    text="Normal",
+    font=("", 20),
+    width=8,
+    height=4,
+    fg="#ACB806",
+    command=partial(pressdiff),
+    master=framer3
+)
+normal.pack(side="left")
+
+hard = tk.Button(
+    text="Hard",
+    font=("", 20),
+    width=8,
+    height=4,
+    fg="#E67A0E",
+    command=partial(pressdiff),
+    master=framer3
+)
+hard.pack(side="left")
+
+impossible = tk.Button(
+    text="Impossible",
+    font=("", 20),
+    width=8,
+    height=4,
+    fg="#FF1900",
+    command=partial(pressdiff),
+    master=framer3
+)
+impossible.pack(side="left")
 
 
 
+#text for throw
 throw = tk.Label(
     text="Choose your throw!",
     font=("", 30),
@@ -122,7 +176,7 @@ paper = tk.Button(
     font=("", 20),
     width=8,
     height=4,
-    fg="#8A8A8A",
+    fg="#D1A2A2",
     master=framer5
 )
 paper.pack(side="left")
@@ -132,10 +186,29 @@ scissors = tk.Button(
     font=("", 20),
     width=8,
     height=4,
-    fg="#D6D6D6",
+    fg="#3934C5",
     master=framer5
 )
 scissors.pack(side="left")
+
+
+#next show the different throws of the user and program and
+#add in the program's functionality
+
+result = tk.Label(
+    text="Results:",
+    font=("", 30),
+    master=framer6
+)
+result.pack()
+
+
+#now for the actual choices
+#userres = tk.Label(
+    #text=userthr
+    #define userthr to be from the button picked...somehow
+#)
+#userres.pack(side="left")
 
 
 
@@ -179,6 +252,9 @@ framer2.pack()
 framer3.pack()
 framer4.pack()
 framer5.pack()
+framer6.pack()
+framer7.pack()
+framer8.pack()
 
 main.mainloop()
 # %%
