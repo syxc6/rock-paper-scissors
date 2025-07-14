@@ -5,7 +5,10 @@ print("It could be carried by an African swallow!")
 import numpy as np
 import tkinter as tk
 import tkinter.ttk as ttk
+import functools
 from functools import partial
+import PIL
+from PIL import ImageTk, Image
 
 
 #%%
@@ -34,16 +37,34 @@ def yoink():
     ##there are text boxes and other alterations of text one can use
     ##.....anyway!
 
+def pressdat(buttonid):
+    #thisisalabel = tk.Label(main, text="this worked")
+    #thisisalabel.pack()
+    buttontext = buttonid.cget("text")
+    print(buttontext)
+
 press = tk.Button(
     text="you wouldn't dare...",
-    command=yoink,
+    command=lambda: pressdat(press),
+    font=("", 20),
     width=25,
     height=25,
     bg="#AF1717",
     ##background colors for buttons apparently infamously dont work on macs....great 
-    fg="#920C97"
+    fg="#920C97",
+    master=raining
 )
 press.pack()
+
+press2 = tk.Button(
+    text="STOP!",
+    command=partial(pressdat(press2)),
+    width=25,
+    height=25,
+    master=raining,
+    font=("",20)
+)
+press2.pack()
 
 ##using button "press" involves going inside the button
 
@@ -95,9 +116,10 @@ diff = tk.Label(
 diff.pack()
 
 #define how to read which difficulty is present
-def pressdiff(userdiff):
-    print(userdiff)
-    nothing = 0
+def pressdiff(button):
+    userdifftext = button
+    print(userdifftext)
+    #why is this not working when my test is perfectly????
 
 
 
@@ -108,7 +130,11 @@ easy = tk.Button(
     width=8,
     height=4,
     fg="#05B339",
-    command=partial(pressdiff),
+    command=partial(pressdiff, button="easy"),
+    #so right now, pressdiff needs an argument. but the command dislikes this occuring (?)
+    #if i dont have an argument, then it works but just counts up vs recognizing the button
+    #so, i need a way to have pressdiff have an argument AND recognize, because cget will not let this happen
+    #....fuck
     master=framer3
 )
 easy.pack(side="left")
@@ -119,7 +145,15 @@ normal = tk.Button(
     width=8,
     height=4,
     fg="#ACB806",
-    command=partial(pressdiff),
+    command=partial(pressdiff, button="normal"),
+    #after lookign at the documentation finally, partial calls the function
+    #AND any arguments separated by COMMAS. so in this way, I'm calling pressdiff
+    #and calling it with the argument "normal". now the actual button name is
+    #still not working, it doesnt recognize easy or normal and still rejects
+    #cget(). so in lieu of a general name, i'll use some hardcoding for now
+    #
+    #plus, with this setup, it will remember the value so you wont need
+    #to repick the difficulty, you can just keep selecting choices! score!
     master=framer3
 )
 normal.pack(side="left")
@@ -130,7 +164,7 @@ hard = tk.Button(
     width=8,
     height=4,
     fg="#E67A0E",
-    command=partial(pressdiff),
+    command=partial(pressdiff, button="hard"),
     master=framer3
 )
 hard.pack(side="left")
@@ -141,7 +175,7 @@ impossible = tk.Button(
     width=8,
     height=4,
     fg="#FF1900",
-    command=partial(pressdiff),
+    command=partial(pressdiff, button="impossible"),
     master=framer3
 )
 impossible.pack(side="left")
@@ -157,6 +191,38 @@ throw = tk.Label(
 throw.pack()
 
 
+
+#define user results BEFORE button press in order to change text
+#without making a new label every press
+usert = tk.Label(
+        text="",
+    #wait userthrowtext isn't defined here....but throw is??
+        font=("", 20),
+        width=8,
+        height=4,
+        master=framer7,
+    )
+usert.pack()
+
+#copy the difficulty differentiating code for the user's throw
+def pressthrow(throw):
+    userthrowtext = throw
+    print(userthrowtext)
+    #yeah try a for loop to change add like 1,2,3 to the end of the
+    #name to be able to delete the previous instance and keep the 
+    #new one, and now still changing the entire LABEL (could cause
+    #issues naming but idk) but i think that could work...maybe
+    usert.config(text=throw)
+    
+    #ok so this creates a label on every press of throw, but i just want
+    #it to change the text on every press. but if i define it outside of
+    #the press, then nothing is seen as defined. so i need a way to
+    #define the label in here BUT still only change the text, OR figure
+    #out a way to delete the previus choice (for loop? changing the name?)
+    #YES CONFIG TO THE RESCUE I need to figure out a starting text but AWESOME
+    #FUCK YESSSSS
+
+
 #gonna try to make buttons using left, right instead of entirely new
 #frames for all of them...ugh
 #command for these will be to define a variable, and then once it's
@@ -167,6 +233,7 @@ rock = tk.Button(
     width=8,
     height=4,
     fg="#343434",
+    command=partial(pressthrow, throw="Rock"),
     master=framer5
 )
 rock.pack(side="left")
@@ -177,6 +244,7 @@ paper = tk.Button(
     width=8,
     height=4,
     fg="#D1A2A2",
+    command=partial(pressthrow, throw="Paper"),
     master=framer5
 )
 paper.pack(side="left")
@@ -187,6 +255,7 @@ scissors = tk.Button(
     width=8,
     height=4,
     fg="#3934C5",
+    command=partial(pressthrow, throw="Scissors"),
     master=framer5
 )
 scissors.pack(side="left")
@@ -201,6 +270,15 @@ result = tk.Label(
     master=framer6
 )
 result.pack()
+
+#define a new function that when throw is defined to replace text
+def checkthrow():
+    if throw != "":
+        teeext = throw
+        #...i really dont knowwhat im doing here ok
+
+
+
 
 
 #now for the actual choices
