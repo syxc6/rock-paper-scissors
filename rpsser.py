@@ -115,6 +115,8 @@ diff = tk.Label(
 )
 diff.pack()
 
+#userdifftext = ""
+
 #define how to read which difficulty is present
 def pressdiff(button):
     userdifftext = button
@@ -198,11 +200,20 @@ usert = tk.Label(
         text="",
     #wait userthrowtext isn't defined here....but throw is??
         font=("", 20),
-        width=8,
+        width=12,
         height=4,
-        master=framer7,
+        master=framer8,
     )
-usert.pack()
+usert.pack(side="left")
+
+programt = tk.Label(
+    text="",
+    font=("", 20),
+    width=12,
+    height=4,
+    master=framer8,
+)
+programt.pack(side="left")
 
 #copy the difficulty differentiating code for the user's throw
 def pressthrow(throw):
@@ -221,6 +232,8 @@ def pressthrow(throw):
     #out a way to delete the previus choice (for loop? changing the name?)
     #YES CONFIG TO THE RESCUE I need to figure out a starting text but AWESOME
     #FUCK YESSSSS
+
+    
 
 
 #gonna try to make buttons using left, right instead of entirely new
@@ -262,20 +275,55 @@ scissors.pack(side="left")
 
 
 #next show the different throws of the user and program and
-#add in the program's functionality
 
 result = tk.Label(
-    text="Results:",
+    text="Results!",
     font=("", 30),
     master=framer6
 )
 result.pack()
 
-#define a new function that when throw is defined to replace text
-def checkthrow():
-    if throw != "":
-        teeext = throw
-        #...i really dont knowwhat im doing here ok
+userchoice = tk.Label(
+    text="User:",
+    font=("", 15),
+    width=16,
+    master=framer7
+)
+userchoice.pack(side="left")
+
+programchoice = tk.Label(
+    text="Program:",
+    font=("", 15),
+    width=16,
+    master=framer7
+)
+programchoice.pack(side="left")
+
+#add in the program's functionality
+
+
+#framework for the choices, now to have it activate when a button is pressed....
+#just copy it inside the button press?
+#ah no good, the global definition of userdifftext makes it blank every time it
+#changes. but if i get rid of that, then this line of logic no longer sees it
+#hmmmm
+print(userdifftext)
+if userdifftext == "easy":
+    print("gg ez")
+    programt.config("thisiseasy")
+    print(programt)
+elif userdifftext == "normal":
+    print("so. yourein trouble again.")
+    programt.config("thisissparta!!!imeannormal!!!")
+    print(programt)
+elif userdifftext == "hard":
+    print("ha! this'll be a challenge")
+    programt.config("youcallthishard?")
+    print(programt)
+elif userdifftext == "impossible":
+    print("nope.")
+    programt.config("youkeepusingthatwork.idonotthinkitmeanswhatyouthinkitmeans.")
+    print(programt)
 
 
 
@@ -290,10 +338,15 @@ def checkthrow():
 
 
 
-diff = np.array([1, 2, 3])
-easy = np.array([1, 2, 3])
-normal = np.array([1, 2, 3])
-hard = np.array([1, 2, 3])
+throwdict = {1:"Rock", 2:"Paper", 3:"Scissors"}
+
+
+
+#diff = np.array([1, 2, 3])
+#easy = np.array([1, 2, 3])
+#normal = np.array([1, 2, 3])
+#hard = np.array([1, 2, 3])
+
 
 
 #userdiffstr = input("Difficulty? Easy=1, Normal=2, Impossible=3")
@@ -302,7 +355,7 @@ hard = np.array([1, 2, 3])
 #userthrowstr = input("Throw? Rock=1, Paper=2, Scissors=3")
 #userthrow = int(userthrowstr)
 
-#throwdict = {1:"Rock", 2:"Paper", 3:"Scissors"}
+
 
 #print("User: " + throwdict[userthrow])
 
