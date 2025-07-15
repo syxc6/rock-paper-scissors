@@ -19,6 +19,9 @@ glass.title("An African swallow mayBE, but not a EuroPEAN swallow, that's my poi
 raining = tk.Frame(relief=tk.RIDGE, borderwidth=10)
 raining.pack()
 
+throwdict = {1:"Rock", 2:"Paper", 3:"Scissors"}
+#define dictionary for integer comparisons of games
+
 hello = tk.Label(
     text="....but then of course, African swallows are nonmigratory",
     foreground="#f0f94a",
@@ -78,6 +81,17 @@ write.bind("<Return>", lambda event: yoink())
 
 glass.mainloop()
 
+
+#%%
+
+bah = tk.Tk()
+boo = tk.StringVar(value="hee", name="boo!")
+print(boo.get())
+boo.set(value="ha")
+print(boo.get())
+bah.mainloop()
+#so it prints the name, but wont let me set the name....huh??
+
 #%%
 #define the window to be made first, with a nod to Tron of course
 main = tk.Tk()
@@ -93,6 +107,7 @@ framer5 = tk.Frame()
 framer6 = tk.Frame()
 framer7 = tk.Frame()
 framer8 = tk.Frame()
+framer9 = tk.Frame()
 
 
 #Next, to make sense to me, define widgets in order of top to bottom
@@ -117,11 +132,64 @@ diff.pack()
 
 #userdifftext = ""
 
+hiddendiff = tk.StringVar()
+
 #define how to read which difficulty is present
 def pressdiff(button):
     userdifftext = button
     print(userdifftext)
-    #why is this not working when my test is perfectly????
+
+    #throwint = throwdict[throw]
+    #hiddendiff.set(value="EZ")
+    #print(hiddendiff.get())
+    #why is this not working and setting the text?
+    #ah need to use .set() and .get(), got it. woo!
+    #so moving the actual logic to the throw command
+    #AND with that, then the difficulty should stick
+    #so when the throw is picked again then the program
+    #can clear the previous throw and make a new one
+    #with NO REINFORMING. YES!!!
+
+    if userdifftext == "easy":
+        hiddendiff.set(value="Easy")
+        print(hiddendiff.get())
+        #programt.config(text="thisiseasy")
+        #print(programt.cget("text"))
+    
+
+    elif userdifftext == "normal":
+        #print("so. yourein trouble again.")
+        #programt.config(text="thisissparta!!!imeannormal!!!")
+        #print(programt.cget("text"))
+        hiddendiff.set(value="Normal")
+        print(hiddendiff.get())
+
+
+    elif userdifftext == "hard":
+        #print("ha! this'll be a challenge")
+        #programt.config(text="youcallthishard?")
+        #print(programt.cget("text"))
+        hiddendiff.set(value="Hard")
+        print(hiddendiff.get())
+
+
+    elif userdifftext == "impossible":
+        #print("nope.")
+        #programt.config(text="youkeepusingthatword.idonotthinkitmeanswhatyouthinkitmeans.")
+        #print(programt.cget("text"))
+
+        hiddendiff.set(value="Impossible")
+        print(hiddendiff.get())
+        
+        #ok so moving this to difficulty selection means the computer may not be
+        #able to play off the user's choices (maybe it can?) BUT it now works
+        #the only issue is that programt now is not being changed... hmmm...
+        #oh forgot the text= command lol. but now it shows the text on the
+        #label BUT has some odd printing.. oh maybe im just not printing the
+        #right thing... OHHH programt is the LABEL, I just wanted the text. huh
+        #cget to the rescue! This moves the orientation of the code a bit
+        #but its functional so i'll stick withthat. now to add in actual functionality
+
 
 
 
@@ -215,6 +283,14 @@ programt = tk.Label(
 )
 programt.pack(side="left")
 
+resultst = tk.Label(
+    text="",
+    font=("", 30),
+    width=8,
+    height=4,
+    master=framer9
+)
+
 #copy the difficulty differentiating code for the user's throw
 def pressthrow(throw):
     userthrowtext = throw
@@ -232,6 +308,30 @@ def pressthrow(throw):
     #out a way to delete the previus choice (for loop? changing the name?)
     #YES CONFIG TO THE RESCUE I need to figure out a starting text but AWESOME
     #FUCK YESSSSS
+
+
+    if throw == "Rock":
+            programt.config(text="Scissors")
+    elif throw == "Paper":
+            programt.config(text="Rock")
+    elif throw == "Scissors":
+            programt.config(text="Paper")            
+    resultst.config(text="Userwins!")
+        #hm, this is apparently not being done, but why?
+        #ideally this would be under the throw... maybe i define
+        #a command here to activate a if logic in the throw press
+        #line and use a while or something to wait and then see
+        #the throw after the difficulty?
+
+        #what if i define an unseen label and use THAT and config
+        #to get userdifftext and thus the difficulty out of just
+        #the press, so i can use it for the actual choice later on
+        #and do this?
+        #OR i just use tk.StringVar().... and .set...
+
+    
+
+    
 
     
 
@@ -307,23 +407,8 @@ programchoice.pack(side="left")
 #ah no good, the global definition of userdifftext makes it blank every time it
 #changes. but if i get rid of that, then this line of logic no longer sees it
 #hmmmm
-print(userdifftext)
-if userdifftext == "easy":
-    print("gg ez")
-    programt.config("thisiseasy")
-    print(programt)
-elif userdifftext == "normal":
-    print("so. yourein trouble again.")
-    programt.config("thisissparta!!!imeannormal!!!")
-    print(programt)
-elif userdifftext == "hard":
-    print("ha! this'll be a challenge")
-    programt.config("youcallthishard?")
-    print(programt)
-elif userdifftext == "impossible":
-    print("nope.")
-    programt.config("youkeepusingthatwork.idonotthinkitmeanswhatyouthinkitmeans.")
-    print(programt)
+#also look at x-y coordinates besides just side packaging?
+
 
 
 
@@ -338,7 +423,7 @@ elif userdifftext == "impossible":
 
 
 
-throwdict = {1:"Rock", 2:"Paper", 3:"Scissors"}
+
 
 
 
@@ -386,6 +471,7 @@ framer5.pack()
 framer6.pack()
 framer7.pack()
 framer8.pack()
+framer9.pack()
 
 main.mainloop()
 # %%
