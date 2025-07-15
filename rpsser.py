@@ -20,6 +20,7 @@ raining = tk.Frame(relief=tk.RIDGE, borderwidth=10)
 raining.pack()
 
 throwdict = {1:"Rock", 2:"Paper", 3:"Scissors"}
+throwdictint = {}
 #define dictionary for integer comparisons of games
 
 hello = tk.Label(
@@ -132,6 +133,8 @@ diff.pack()
 
 #userdifftext = ""
 
+throwdict = {1:"Rock", 2:"Paper", 3:"Scissors"}
+throwintdict = {"Rock":1, "Paper":2, "Scissors":3}
 hiddendiff = tk.StringVar()
 
 #define how to read which difficulty is present
@@ -286,10 +289,11 @@ programt.pack(side="left")
 resultst = tk.Label(
     text="",
     font=("", 30),
-    width=8,
-    height=4,
+    width=16,
+    height=2,
     master=framer9
 )
+resultst.pack()
 
 #copy the difficulty differentiating code for the user's throw
 def pressthrow(throw):
@@ -309,14 +313,16 @@ def pressthrow(throw):
     #YES CONFIG TO THE RESCUE I need to figure out a starting text but AWESOME
     #FUCK YESSSSS
 
+    if hiddendiff.get() == "Easy":
+        print("you threw easy and chose " + userthrowtext)
 
-    if throw == "Rock":
+        if throw == "Rock":
             programt.config(text="Scissors")
-    elif throw == "Paper":
+        elif throw == "Paper":
             programt.config(text="Rock")
-    elif throw == "Scissors":
+        elif throw == "Scissors":
             programt.config(text="Paper")            
-    resultst.config(text="Userwins!")
+        resultst.config(text="User wins!")
         #hm, this is apparently not being done, but why?
         #ideally this would be under the throw... maybe i define
         #a command here to activate a if logic in the throw press
@@ -328,6 +334,48 @@ def pressthrow(throw):
         #the press, so i can use it for the actual choice later on
         #and do this?
         #OR i just use tk.StringVar().... and .set...
+
+        #ITS WORKINGGGGGG ITS FUNCTIONING PROPERLYYYYYY
+        #It just doesnt work if you choose the throw first...hmmm, something to fix later
+    if hiddendiff.get() == "Normal":
+        print("normallll")
+        ran = np.random.randint(1,4)
+        
+        throwint = throwintdict[throw]
+        ranstr = throwdict[ran]
+        programt.config(text=ranstr)
+        print(ranstr)
+        #lil bit of clunky dictionary work to go back and forth
+        #but also fine
+
+        #Copied from rps, seems to define ran the first time and then remember
+        #the value each subsequent run. need to clear the memory with del
+        #print("Program: " + throwdict[ran])
+        if ran == throwint:
+            resultst.config(text="Tie!")
+        elif ran == 1 and throwint == 3:
+            resultst.config(text="Program wins!")
+        elif ran < throwint or (ran == 3 and throwint == 1):
+            resultst.config(text="User wins!")
+            #code thinks user scissors and program rock is user wins,
+            #unsure how so hardcoding for now
+            #yep for that, the user's number is larger so it thought
+            #throwint > ran and thus user should win. guess i didnt
+            #test my first iteration throughly
+            #but normal difficulty is working!
+        else:
+            resultst.config(text="Program wins!")
+        del ran
+    if hiddendiff.get() == "Hard":
+        print("hardddd")
+    if hiddendiff.get() == "Impossible":
+        if throw == "Rock":
+            programt.config(text="Paper")
+        elif throw == "Paper":
+            programt.config(text="Scissors")
+        elif throw == "Scissors":
+            programt.config(text="Rock")            
+        resultst.config(text="Program wins!")
 
     
 
