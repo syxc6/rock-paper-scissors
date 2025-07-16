@@ -93,6 +93,12 @@ print(boo.get())
 bah.mainloop()
 #so it prints the name, but wont let me set the name....huh??
 
+
+#%%
+#mod 3 test
+print((2-1)%3)
+
+
 #%%
 #define the window to be made first, with a nod to Tron of course
 main = tk.Tk()
@@ -134,8 +140,12 @@ diff.pack()
 #userdifftext = ""
 
 throwdict = {1:"Rock", 2:"Paper", 3:"Scissors"}
-throwintdict = {"Rock":1, "Paper":2, "Scissors":3}
+throwintdict = {"Rock":1, "Paper":2, "Scissors":3, "":4}
+mod3dict = {0:"Rock", 1:"Paper", 2:"Scissors"}
+mod3intdict = {"Rock":0, "Paper":1, "Scissors":2, "":4}
 hiddendiff = tk.StringVar()
+hiddenpastprog = tk.StringVar()
+hiddenpastres = tk.StringVar()
 
 #define how to read which difficulty is present
 def pressdiff(button):
@@ -340,7 +350,6 @@ def pressthrow(throw):
     if hiddendiff.get() == "Normal":
         print("normallll")
         ran = np.random.randint(1,4)
-        
         throwint = throwintdict[throw]
         ranstr = throwdict[ran]
         programt.config(text=ranstr)
@@ -367,7 +376,101 @@ def pressthrow(throw):
             resultst.config(text="Program wins!")
         del ran
     if hiddendiff.get() == "Hard":
+        #so the big secret about this is based on a mark rober vid lol
+        #but that humans typically follow a specific pattern in rock, paper, scissors
+        #and you can counteract that. now the trouble is this involves
+        #"remembering" previous games, so im gonna need to store past games
+        #in variables, but thankfully it's just t-1 so not that big a deal
+        #but hoping i can pull this off and learn a bit
+
+        #so when it's the first game, throw rock and record the program threw
+        #rock and whether it won or not. on the second, remember your throw
+        #and if you won, go up. if tie or lost, go down. then throw that,
+        #record THAT throw as the new t-1 throw, and also whether you won.
+        #then it just keeps going
         print("hardddd")
+        pastint = mod3intdict[hiddenpastprog.get()]
+        throwint = throwintdict[throw]
+        print(hiddenpastprog.get())
+        print(hiddenpastres.get())
+        if hiddenpastprog.get() == "":
+            #do it like normal
+            #for now, just throw rock
+            programt.config(text="Rock")
+            hiddenpastprog.set(value="Rock")
+
+            if throwint == 1:
+                resultst.config(text="Tie!")
+                hiddenpastres.set(value="tie")
+            elif throwint == 2:
+                resultst.config(text="User wins!")
+                hiddenpastres.set(value="lost")
+            elif throwint == 3:
+                resultst.config(text="Program wins!")
+                hiddenpastres.set(value="won")
+            #hardcode for lack of a better idea right now
+        elif hiddenpastprog.get() != "":
+            if hiddenpastres.get() == "won":
+                newprogint = (pastint+1)%3
+                newgoodprogint = newprogint + 1
+                newprog = mod3dict[newprogint]
+                #FUCK NEW DICT
+                programt.config(text=newprog)
+
+                if newgoodprogint == throwint:
+                    resultst.config(text="Tie!")
+                    hiddenpastprog.set(value=newprog)
+                    hiddenpastres.set(value="tie")
+                elif newgoodprogint == 1 and throwint == 3:
+                    resultst.config(text="Program wins!")
+                    hiddenpastprog.set(value=newprog)
+                    hiddenpastres.set(value="won")
+                elif newgoodprogint < throwint or (newgoodprogint == 3 and throwint == 1):
+                    resultst.config(text="User wins!")
+                    hiddenpastprog.set(value=newprog)
+                    hiddenpastres.set(value="lost")
+                else:
+                    resultst.config(text="Program wins!")
+                    hiddenpastprog.set(value=newprog)
+                    hiddenpastres.set(value="won")
+                
+
+                #move down (rock to paper, etc)
+                #use mod 3 logic or something?
+            else:
+                newprogint = (pastint-1)%3
+                #use mod 3 counting to keep the circle going
+                #also counting ties as "losses" but not sure if
+                #the research backs that up....anyway–
+                newgoodprogint = newprogint + 1
+                newprog = mod3dict[newprogint]
+                programt.config(text=newprog)
+                #now see who won and who didnt
+                #then rewrite past variables
+
+                if newgoodprogint == throwint:
+                    resultst.config(text="Tie!")
+                    hiddenpastprog.set(value=newprog)
+                    hiddenpastres.set(value="tie")
+                elif newgoodprogint == 1 and throwint == 3:
+                    resultst.config(text="Program wins!")
+                    hiddenpastprog.set(value=newprog)
+                    hiddenpastres.set(value="won")
+                elif newgoodprogint < throwint or (newgoodprogint == 3 and throwint == 1):
+                    resultst.config(text="User wins!")
+                    hiddenpastprog.set(value=newprog)
+                    hiddenpastres.set(value="lost")
+                else:
+                    resultst.config(text="Program wins!")
+                    hiddenpastprog.set(value=newprog)
+                    hiddenpastres.set(value="won")
+
+                #move up the line (paper to rock, etc)
+            #then rewrite the past variables to this game
+        
+        print(hiddenpastprog.get())
+        print(hiddenpastres.get())
+        #check results befoer and after current game
     if hiddendiff.get() == "Impossible":
         if throw == "Rock":
             programt.config(text="Paper")
@@ -447,69 +550,14 @@ programchoice = tk.Label(
 )
 programchoice.pack(side="left")
 
-#add in the program's functionality
 
 
-#framework for the choices, now to have it activate when a button is pressed....
-#just copy it inside the button press?
-#ah no good, the global definition of userdifftext makes it blank every time it
-#changes. but if i get rid of that, then this line of logic no longer sees it
-#hmmmm
-#also look at x-y coordinates besides just side packaging?
+
+pastthrow = throw
 
 
 
 
-
-
-#now for the actual choices
-#userres = tk.Label(
-    #text=userthr
-    #define userthr to be from the button picked...somehow
-#)
-#userres.pack(side="left")
-
-
-
-
-
-
-
-#diff = np.array([1, 2, 3])
-#easy = np.array([1, 2, 3])
-#normal = np.array([1, 2, 3])
-#hard = np.array([1, 2, 3])
-
-
-
-#userdiffstr = input("Difficulty? Easy=1, Normal=2, Impossible=3")
-#userdiff = int(userdiffstr)
-
-#userthrowstr = input("Throw? Rock=1, Paper=2, Scissors=3")
-#userthrow = int(userthrowstr)
-
-
-
-#print("User: " + throwdict[userthrow])
-
-#if userdiff == 1:
-    #print("wow you picked a real challenge.")
-
-#elif userdiff == 2:
-    #ran = np.random.randint(1,4)
-    ##Copied from rps, seems to define ran the first time and then remember
-    ##the value each subsequent run. need to clear the memory with del
-    #print("Program: " + throwdict[ran])
-    #if ran == userthrow:
-        #print("Tie!")
-    #elif ran < userthrow or ran == 3 and userthrow == 1:
-        #print("User wins!")
-    #else:
-        #print("Program wins!")
-    #del ran
-
-#elif userdiff == 3:
-    #print("Go back to Dark Souls.")
 
 framer1.pack()
 framer2.pack()
