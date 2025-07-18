@@ -1,3 +1,4 @@
+#%%
 #It could be carried by an African swallow!
 
 #import modules of course, pillow for images maybe
@@ -67,6 +68,12 @@ def pressdiff(button):
     elif button == "impossible":
         hiddendiff.set(value="Impossible")
 
+    #also erase throws to set it fresh for each choice
+    usert.config(text="")
+    programt.config(text="")
+    resultst.config(text="")
+    hiddenpastprog.set(value="")
+    hiddenpastres.set(value="")
 
 
 #actually show the buttons for difficulties
@@ -187,7 +194,6 @@ def pressthrow(throw):
         throwint = throwintdict[throw]
         ranstr = throwdict[ran]
         programt.config(text=ranstr)
-        print(ranstr)
         #bit clunky dictionary work but fine for now
 
         if ran == throwint:
@@ -387,3 +393,4 @@ framer8.pack()
 framer9.pack()
 
 main.mainloop()
+# %%
